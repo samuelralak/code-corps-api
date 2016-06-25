@@ -22,7 +22,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.serve_static_files = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -35,14 +35,15 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
-  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+  # `config.assets.precompile` and `config.assets.version` have moved to
+  # config/initializers/assets.rb
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = (ENV['FORCE_SSL'] == 'true')
+  config.force_ssl = (ENV["FORCE_SSL"] == "true")
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -81,12 +82,20 @@ Rails.application.configure do
     storage: :s3,
     s3_protocol: :https,
     s3_credentials: {
-      bucket: ENV['S3_BUCKET_NAME'],
-      s3_region: 'us-east-1',
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      bucket: ENV["S3_BUCKET_NAME"],
+      s3_region: "us-east-1",
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
     },
-    s3_host_alias: ENV['CLOUDFRONT_DOMAIN'],
-    url: ':s3_alias_url'
+    s3_host_alias: ENV["CLOUDFRONT_DOMAIN"],
+    url: ":s3_alias_url"
+  }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.mailgun.org",
+    port: 587,
+    user_name: ENV["SMTP_LOGIN"],
+    password: ENV["SMTP_PASSWORD"]
   }
 end
